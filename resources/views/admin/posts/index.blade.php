@@ -39,10 +39,6 @@
                             <tr>
                                 <th scope="col" class="sort" data-sort="name">Название</th>
                                 <th scope="col" class="sort" data-sort="slug">Slug</th>
-                                <th scope="col" class="sort" data-sort="category_id">Категории</th>
-                                <th scope="col" class="sort" data-sort="description">Теги</th>
-                                <th scope="col">Пользователь</th>
-                                <th scope="col"></th>
                             </tr>
                             </thead>
                             @foreach($posts as $post)
