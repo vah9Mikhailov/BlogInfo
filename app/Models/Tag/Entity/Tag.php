@@ -3,6 +3,8 @@
 namespace App\Models\Tag\Entity;
 
 use App\Models\Post\Entity\Post;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -24,5 +26,13 @@ class Tag extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    /**
+     * @return Tag[]|Collection
+     */
+    public function getAll()
+    {
+        return $this->all();
     }
 }

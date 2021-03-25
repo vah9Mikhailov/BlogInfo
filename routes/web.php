@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
+});
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/home', 'App\Http\Controllers\Admin\HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
@@ -42,5 +42,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     })->name('table');
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::resource('posts','App\Http\Controllers\Admin\PostController');
+    Route::resource('categories','App\Http\Controllers\Admin\CategoryController');
+    Route::resource('tags','App\Http\Controllers\Admin\TagController');
 });
 

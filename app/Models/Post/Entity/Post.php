@@ -4,6 +4,7 @@ namespace App\Models\Post\Entity;
 
 use App\Models\Category\Entity\Category;
 use App\Models\Tag\Entity\Tag;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -25,6 +26,7 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+
     public function sluggable(): array
     {
         return [
@@ -34,6 +36,9 @@ class Post extends Model
         ];
     }
 
+    /**
+     * @return LengthAwarePaginator
+     */
     public function getAll()
     {
         return $this->query()->paginate(5);

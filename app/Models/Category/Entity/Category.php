@@ -3,6 +3,7 @@
 namespace App\Models\Category\Entity;
 
 use App\Models\Post\Entity\Post;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -24,5 +25,13 @@ class Category extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    /**
+     * @return Category[]|Collection
+     */
+    public function getAll()
+    {
+        return $this->all();
     }
 }
