@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Models\Category\UseCase\Admin\Edit;
+namespace App\Models\Tag\UseCase\Admin\Edit;
 
 
 class Command
@@ -31,4 +31,6 @@ class Command
     {
         return $this->id;
     }
+
+
 }

@@ -103,8 +103,8 @@ class CategoryController extends Controller
                 (string)$request->get('name')
             );
             $handle = new UpdateHandler();
-            $handle->handle($command);
-            return redirect()->route('categories.index')->with('success', 'Категория обновлена');
+            $category = $handle->handle($command);
+            return redirect()->route('categories.index')->with('success', "Категория '{$category->name}' обновлена");
         } catch (\DomainException $e) {
 
         }

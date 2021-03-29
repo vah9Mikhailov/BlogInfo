@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App\Models\Category\UseCase\Admin\Edit;
+namespace App\Models\Tag\UseCase\Admin\Destroy;
 
+
+use PhpParser\Node\Stmt\If_;
 
 class Command
 {

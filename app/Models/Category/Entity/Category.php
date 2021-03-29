@@ -91,13 +91,18 @@ class Category extends Model
 
     /**
      * @param UpdateCommand $command
+     * @return Category
      */
-    public function updateById(UpdateCommand $command)
+    public function updateById(UpdateCommand $command): Category
     {
+        /**
+         * @var $category Category
+         */
         $category = $this->query()->find($command->getId());
         if (!is_null($category)) {
             $category->name = $command->getName();
             $category->update();
+            return $category;
         } else {
             throw new \DomainException("Категории с id = {$command->getId()} не существует");
         }

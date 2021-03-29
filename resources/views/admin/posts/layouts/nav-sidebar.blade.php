@@ -46,15 +46,21 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link" href="{{ route('posts.index') }}">
-                            <i class="ni ni-single-copy-04 text-blue"></i>
-                            <span class="nav-link-text">Посты</span>
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview">
                         <a class="nav-link" href="{{ route('categories.index') }}">
                             <i class="ni ni-bullet-list-67 text-blue"></i>
                             <span class="nav-link-text">Категории</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a class="nav-link" href="{{ route('tags.index') }}">
+                            <i class="ni ni-tag text-blue"></i>
+                            <span class="nav-link-text">Теги</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a class="nav-link" href="{{ route('posts.index') }}">
+                            <i class="ni ni-single-copy-04 text-blue"></i>
+                            <span class="nav-link-text">Посты</span>
                         </a>
                     </li>
                 </ul>

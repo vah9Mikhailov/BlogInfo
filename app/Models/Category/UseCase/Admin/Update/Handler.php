@@ -10,10 +10,12 @@ class Handler
 {
     /**
      * @param Command $command
+     * @return Category
      */
     public function handle(Command $command)
     {
         $category = new Category();
         $category->updateById($command);
+        return $category;
     }
 }

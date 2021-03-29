@@ -10,8 +10,8 @@
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i></a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Список категорий</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Категория "{{$category->name}}"</li>
+                                <li class="breadcrumb-item"><a href="{{route('tags.index')}}">Список тегов</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Тег "{{$tag->name}}"</li>
                             </ol>
                         </nav>
                     </div>
@@ -26,16 +26,16 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <h3 class="mb-0">Обновление категории "{{$category->name}}"</h3>
+                        <h3 class="mb-0">Обновление тега "{{$tag->name}}"</h3>
                         <hr>
                         <div class="table-responsive border-0">
                             <table class="table align-items-center table-flush">
-                                <form method="post" action="{{ route('categories.update',['category' => $category->id]) }}" enctype="multipart/form-data">
+                                <form method="post" action="{{ route('tags.update',['tag' => $tag->id]) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group">
-                                        <label for="name">Название категории</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{$category->name}}">
+                                        <label for="name">Название тега</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{$tag->name}}">
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary float-right">Сохранить</button>
