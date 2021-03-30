@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Post\Entity\Post;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,11 +43,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return User[]|Collection
-     */
-    public function getAll()
+    public function posts()
     {
-        return $this->all();
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllById()
+    {
+        return $this->query()->pluck('name','id');
     }
 }

@@ -28,7 +28,6 @@ class TagController extends Controller
     {
         $handle = new Handler();
         $tags = $handle->handle();
-        $count = count($tags);
         return view('admin.tags.index', compact('tags'));
     }
 

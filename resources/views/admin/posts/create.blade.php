@@ -30,39 +30,46 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <h3 class="mb-0">Создание поста</h3>
+                        <h2 class="mb-0">Создание поста</h2>
                         <hr>
-                        <div class="table-responsive border-0">
+                        <div class="table-responsive border-0 overflow-hidden">
                             <table class="table align-items-center table-flush">
-                                <form>
+                                <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
                                     <div class="form-group">
-                                        <select class="custom-select mr-sm-2" id="user_id">
+                                        <label for="name">Автор поста</label>
+                                        <select class="form-control" data-toggle="select" id="user_id" name="user_id">
                                             @foreach($users as $k => $v)
-                                                <option selected>Выберете автора статьи</option>
-                                                <option value="{{$k}}">{{$v->name}}</option>
+                                                <option value="{{$k}}">{{$v}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Название поста</label>
-                                        <input type="name" class="form-control" id="name" placeholder="Name post">
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                               id="name" placeholder="Name post" name="name">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Описание</label>
-                                        <textarea class="form-control" id="description" rows="5"></textarea>
+                                        <textarea class="form-control @error('description') is-invalid @enderror"
+                                                  id="description" rows="5" name="description"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="categories">Категории</label>
-                                        <select name="categories" id="categories" class="select2" multiple="multiple"
-                                                data-placeholder="Выбор категорий" style="width: 100%;">
+                                        <select name="categories[]" id="categories"
+                                                class="form-control" multiple="multiple"
+                                                title="Выбор категорий" style="width: 100%;">
                                             @foreach($categories as $k => $v)
-                                                <option value="{{ $k }}">{{ $v->name }}</option>
+                                                <option value="{{ $k }}">{{ $v }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="tags">Теги</label>
-                                        <select name="tags" id="tags" class="select2" multiple="multiple" data-placeholder="Выбор тегов" style="width: 100%;">
+                                        <select name="tags[]" id="tags"
+                                                class="form-control" multiple
+                                                title="Выбор тегов" style="width: 100%;">
                                             @foreach($tags as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
                                             @endforeach
@@ -70,11 +77,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="thumbnail">Изображение</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" name="thumbnail" class="custom-file-input" id="thumbnail">
-                                            </div>
+                                        <div class="custom-file">
+                                            <input type="file" name="thumbnail" class="custom-file-input"
+                                                   id="thumbnail">
+                                            <label class="custom-file-label" for="thumbnail">Select file</label>
                                         </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary float-right">Сохранить
+                                        </button>
                                     </div>
                                 </form>
                             </table>
@@ -90,3 +101,4 @@
         @include('layouts.footers.auth')
     </div>
 @endsection
+

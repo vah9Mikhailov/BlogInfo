@@ -8,6 +8,7 @@ use App\Models\Tag\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Tag\UseCase\Admin\Store\Command;
 use App\Models\Tag\UseCase\Admin\Update\Command as UpdateCommand;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -32,9 +33,17 @@ class Tag extends Model
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllById()
+    {
+        return $this->query()->pluck('name','id');
+    }
+
+    /**
      * @return LengthAwarePaginator
      */
-    public function getAll()
+    public function getAllWithPaginate()
     {
         return $this->query()->paginate(5);
     }
@@ -107,4 +116,5 @@ class Tag extends Model
             throw new \DomainException("Тега с id = {$command->getId()} не существует");
         }
     }
+
 }

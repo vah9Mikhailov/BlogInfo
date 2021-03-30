@@ -15,7 +15,7 @@ class Handler
     public function handle()
     {
         $tags = new Tag();
-        $tags = $tags->getAll();
+        $tags = $tags->getAllWithPaginate();
         return $tags;
     }
 }

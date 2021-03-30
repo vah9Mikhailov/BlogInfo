@@ -17,7 +17,7 @@
                         </nav>
                     </div>
                     <div class="col-lg-6 col-5 text-right">
-                        <a href="{{route('posts.create')}}" class="btn btn-sm btn-neutral">New</a>
+                        <a href="{{route('posts.create')}}" class="btn btn-sm btn-neutral">Создать</a>
                     </div>
                 </div>
             </div>
@@ -66,21 +66,21 @@
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span
-                                                    class="name mb-0 text-sm">{{$post->categories()->category_id}}</span>
+                                                    class="name mb-0 text-sm">{{$post->categories->pluck('name')->join(', ')}}</span>
                                             </div>
                                         </div>
                                     </th>
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="name mb-0 text-sm">{{$post->tags()->tag_id}}</span>
+                                                <span class="name mb-0 text-sm">{{$post->tags->pluck('name')->join(', ')}}</span>
                                             </div>
                                         </div>
                                     </th>
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="name mb-0 text-sm">{{$post->user_id}}</span>
+                                                <span class="name mb-0 text-sm">{{$post->user->name}}</span>
                                             </div>
                                         </div>
                                     </th>

@@ -16,7 +16,7 @@ class Handler
     public function handle()
     {
         $category = new Category();
-        $category = $category->getAll();
+        $category = $category->getAllWithPaginate();
         return $category;
     }
 }

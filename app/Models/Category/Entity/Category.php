@@ -35,9 +35,17 @@ class Category extends Model
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllById()
+    {
+        return $this->query()->pluck('name','id');
+    }
+
+    /**
      * @return LengthAwarePaginator
      */
-    public function getAll()
+    public function getAllWithPaginate()
     {
         return $this->query()->paginate(5);
     }
