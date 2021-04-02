@@ -3,14 +3,17 @@
 namespace App\Models\Post\Entity;
 
 use App\Models\Category\Entity\Category;
+use App\Models\Post\UseCase\Admin\Destroy\Command as DestroyCommand;
+use App\Models\Post\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Post\UseCase\Admin\Store\Command;
+use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
 use App\Models\Tag\Entity\Tag;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,7 +61,7 @@ class Post extends Model
      * @param $thumbnail
      * @param $name
      * @param null $image
-     * @return bool|null
+     * @return string|null
      */
     private function uploadImage($thumbnail, $name, $image = null)
     {
@@ -67,9 +70,8 @@ class Post extends Model
                 Storage::delete($image);
             }
             $folder = date('Y-m-d');
-            $uploadFolder = "public/{$folder}/{$name}";
-            $thumbnail->store($uploadFolder);
-            return true;
+            $uploadFolder = "images/{$folder}/{$name}";
+            return $thumbnail->store($uploadFolder);
         } else {
             return null;
         }
@@ -92,4 +94,75 @@ class Post extends Model
         }
     }
 
+    /**
+     * @param EditCommand $command
+     * @return Post
+     */
+    public function edit(EditCommand $command): Post
+    {
+        /**
+         * @var $post Post
+         */
+        $post = $this->query()->find($command->getId());
+        if (!is_null($post)) {
+            return $post;
+        } else {
+            throw new \DomainException("Поста с id = {$command->getId()} не существует");
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        if (!is_null($this->thumbnail))
+        {
+            return asset("uploads/{$this->thumbnail}");
+        }
+        return asset("uploads/images/noimg.jpg");
+    }
+
+    /**
+     * @param UpdateCommand $command
+     * @return Post
+     */
+    public function updateById(UpdateCommand $command): Post
+    {
+        /**
+         * @var $post Post
+         */
+        $post = $this->query()->find($command->getId());
+        if (!is_null($post)) {
+            $post->name = $command->getName();
+            $post->description = $command->getDescription();
+            $post->user_id = $command->getUserId();
+            $post->thumbnail = $this->uploadImage($command->getThumbnail(),$command->getName(),$post->thumbnail);
+            $post->update();
+            return $post;
+        } else {
+            throw new \DomainException("Поста с id = {$command->getId()} не существует");
+        }
+    }
+
+    /**
+     * @param DestroyCommand $command
+     * @return Post
+     * @throws Exception
+     */
+    public function deleteById(DestroyCommand $command): Post
+    {
+        /**
+         * @var $post Post
+         */
+        $post = $this->query()->find($command->getId());
+        if (!is_null($post)) {
+            $post->delete();
+            DB::table('category_post')->where('post_id','=',$command->getId())->delete();
+            DB::table('post_tag')->where('post_id','=',$command->getId())->delete();
+            return $post;
+        } else {
+            throw new \DomainException("Поста с id = {$command->getId()} не существует");
+        }
+    }
 }

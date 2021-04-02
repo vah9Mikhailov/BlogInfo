@@ -84,18 +84,22 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td class="text-right">
-                                        <div class="dropdown">
-                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <th scope="row">
+                                        <a href="{{ route('posts.edit', ['post'=> $post->id]) }}"
+                                           class="btn btn-info btn-sm float-left mr-1">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <form action="{{route('posts.destroy',['post' => $post->id])}}"
+                                              method="post" class="float-left">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Подтвердите удаление')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+
+                                        </form>
+                                    </th>
                                 </tr>
                                 </tbody>
                             @endforeach

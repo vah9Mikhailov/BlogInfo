@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\DB;
 
 class Tag extends Model
 {
@@ -111,6 +112,7 @@ class Tag extends Model
         $tag = $this->query()->find($command->getId());
         if (!is_null($tag)) {
             $tag->delete();
+            DB::table('post_tag')->where('tag_id','=',$command->getId())->delete();
             return $tag;
         } else {
             throw new \DomainException("Тега с id = {$command->getId()} не существует");

@@ -11,7 +11,7 @@
                                 <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{route('posts.index')}}">Список постов</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Новый пост</li>
+                                <li class="breadcrumb-item active" aria-current="page">Пост "{{$post->name}}"</li>
                             </ol>
                         </nav>
                     </div>
@@ -30,26 +30,26 @@
                         <hr>
                         <div class="table-responsive border-0 overflow-hidden">
                             <table class="table align-items-center table-flush">
-                                <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                                <form method="post" action="{{ route('posts.update',['post' => $post->id]) }}" enctype="multipart/form-data">
                                     @csrf
-                                    @method('POST')
+                                    @method('PUT')
                                     <div class="form-group">
                                         <label for="name">Автор поста</label>
                                         <select class="form-control" data-toggle="select" id="user_id" name="user_id">
                                             @foreach($users as $k => $v)
-                                                <option value="{{$k}}">{{$v}}</option>
+                                                <option value="{{$k}}" @if( $k == $post->user_id) selected @endif>{{$v}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Название поста</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                               id="name" placeholder="Name post" name="name">
+                                               id="name" placeholder="Name post" name="name" value="{{$post->name}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Описание</label>
                                         <textarea class="form-control @error('description') is-invalid @enderror"
-                                                  id="description" rows="5" name="description"></textarea>
+                                                  id="description" rows="5" name="description">{{$post->description}}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="categories">Категории</label>
@@ -57,7 +57,7 @@
                                                 class="form-control" multiple="multiple"
                                                 title="Выбор категорий" style="width: 100%;">
                                             @foreach($categories as $k => $v)
-                                                <option value="{{ $k }}">{{ $v }}</option>
+                                                <option value="{{ $k }}" @if(in_array($k, $post->categories->pluck('id')->all())) selected @endif>{{ $v }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -67,7 +67,7 @@
                                                 class="form-control" multiple
                                                 title="Выбор тегов" style="width: 100%;">
                                             @foreach($tags as $k => $v)
-                                                <option value="{{ $k }}">{{ $v }}</option>
+                                                <option value="{{ $k }}" @if(in_array($k, $post->tags->pluck('id')->all())) selected @endif>{{ $v }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -77,6 +77,9 @@
                                             <input type="file" name="thumbnail" class="custom-file-input"
                                                    id="thumbnail">
                                             <label class="custom-file-label" for="thumbnail">Select file</label>
+                                        </div>
+                                        <div>
+                                            <img src="{{ $post->getImage() }}"  alt="" class="img-thumbnail" width="150" height="161">
                                         </div>
                                     </div>
                                     <div class="card-footer">
@@ -97,4 +100,5 @@
         @include('layouts.footers.auth')
     </div>
 @endsection
+
 

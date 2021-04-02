@@ -1,9 +1,7 @@
 <?php
 
 
-namespace App\Models\Tag\UseCase\Admin\Destroy;
-
-
+namespace App\Models\Post\UseCase\Admin\Destroy;
 
 
 class Command

@@ -10,6 +10,7 @@ use App\Models\Tag\Entity\Tag;
 use DateTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\returnArgument;
 
 class PostService
 {
@@ -50,7 +51,7 @@ class PostService
         if (!is_null($categories)) {
             foreach ($categories as $v) {
                 DB::table('category_post')
-                    ->updateOrInsert([
+                    ->insert([
                         'post_id' => $post->id,
                         'category_id' => (int)$v,
                     ]);
@@ -67,7 +68,7 @@ class PostService
         if (!is_null($tags)) {
             foreach ($tags as $v) {
                 DB::table('post_tag')
-                    ->updateOrInsert([
+                    ->insert([
                         'post_id' => $post->id,
                         'tag_id' => (int)$v,
                     ]);
@@ -75,6 +76,109 @@ class PostService
         }
     }
 
+    public function deleteIdTagsToPosts(int $idd)
+    {
+        $ids = $this->getTagsPostsFromTablePostTag($idd);
+        foreach ($ids as $id) {
+            DB::table('post_tag')
+                ->where('tag_id','=',$id)
+                ->delete();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    private function getTagsPostsFromTablePostTag(int $id)
+    {
+        $tags = DB::table('post_tag')
+            ->select('tag_id')
+            ->where('post_id', '=', $id)
+            ->get();
+        $result = [];
+        foreach ($tags as $key => $value) {
+            $result[$key] = $value->tag_id;
+        }
+        return $result;
+    }
+
+    /**
+     * @param int $idd
+     */
+    public function deleteIdCategoriesToPosts(int $idd)
+    {
+        $ids = $this->getCategoriesPostsFromTableCategoryPost($idd);
+        foreach ($ids as $id) {
+            DB::table('category_post')
+                ->where('category_id','=',$id)
+                ->delete();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    private function getCategoriesPostsFromTableCategoryPost(int $id)
+    {
+        $categs = DB::table('category_post')
+            ->select('category_id')
+            ->where('post_id', '=', $id)
+            ->get();
+        $result = [];
+        foreach ($categs as $key => $value) {
+            $result[$key] = $value->category_id;
+        }
+        return $result;
+    }
+
+
+
+    /**
+     * @param int $id
+     * @param array $ids
+     * @return array
+     */
+    /*private function checkIdTagsForExistingIds(int $id, array $ids)
+    {
+        $tags = $this->getTagsPostsFromTablePostTag($id);
+        $tages = array_flip($tags);
+        $ides = array_flip($ids);
+        if (count($ids) >= count($tags)) {
+            foreach ($ids as $key => $id) {
+                if (isset($tages[$id])) {
+                    unset($ids[$key]);
+                }
+            }
+            return $ids;
+        } else {
+            foreach ($tags as $key => $tag) {
+                if (isset($ides[$tag])) {
+                    unset($tags[$key]);
+                }
+            }
+            $endIdes = array_flip($ides);
+            return $endIdes;
+        }
+
+    }*/
+
+
+
+    /*public function updateIdTagsToPosts(int $id, array $ids)
+    {
+        $ides = $this->checkIdTagsForExistingIds($id, $ids);
+        if ($ides) {
+            foreach ($ides as $value) {
+                DB::table('post_tag')
+                    ->insert([
+                        'post_id' => $id,
+                        'tag_id' => (int)$value,
+                    ]);
+            }
+        }
+    }*/
 
 
 }

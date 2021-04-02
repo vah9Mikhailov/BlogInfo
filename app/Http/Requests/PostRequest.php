@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Post\Entity\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostRequest extends FormRequest
 {
@@ -23,12 +25,21 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->id;
         return [
-            'name' => 'required|unique:posts',
+            'name' => 'required',
             'description' => 'required',
             'categories' => 'required',
             'tags' => 'required',
             'thumbnail' => 'nullable|image',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Название поста занято, назовите по-другому',
+            'thumbnail.image' => 'Формат изображения должен быть другой. Например, jpg или png'
         ];
     }
 }

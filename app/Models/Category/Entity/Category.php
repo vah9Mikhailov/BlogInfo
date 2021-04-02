@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\DB;
 
 class Category extends Model
 {
@@ -71,9 +72,13 @@ class Category extends Model
      */
     public function deleteById(DestroyCommand $command) : Category
     {
+        /**
+         * @var $category Category
+         */
         $category = $this->query()->find($command->getId());
         if (!is_null($category)) {
             $category->delete();
+            DB::table('category_post')->where('category_id','=',$command->getId())->delete();
             return $category;
         } else {
             throw new \DomainException("Категории с id = {$command->getId()} не существует");

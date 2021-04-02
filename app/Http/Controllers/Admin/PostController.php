@@ -6,18 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Category\Entity\Category;
 use App\Models\Post\Dto\Insert;
+use App\Models\Post\Dto\Update;
 use App\Models\Post\Entity\Post;
-use App\Models\Post\Services\PostService;
-use App\Models\Post\UseCase\Admin\Index\Handler;
+use App\Models\Post\UseCase\Admin\Destroy\Command as DestroyCommand;
+use App\Models\Post\UseCase\Admin\Destroy\Handler as DestroyHandler;
+use App\Models\Post\UseCase\Admin\Edit\Command as EditCommand;
+use App\Models\Post\UseCase\Admin\Edit\Handler as EditHandler;
 use App\Models\Post\UseCase\Admin\Store\Command;
 use App\Models\Post\UseCase\Admin\Store\Handler as StoreHandler;
+use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
+use App\Models\Post\UseCase\Admin\Update\Handler as UpdateHandler;
 use App\Models\Tag\Entity\Tag;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PostController extends Controller
@@ -83,54 +88,92 @@ class PostController extends Controller
             );
             $handle = new StoreHandler();
             $post = $handle->handle($command);
-            return redirect()->route('admin.posts.index')->with('success',"Пост '{$post->name}' успешно сохранён");
+            return redirect()->route('posts.index')->with('success', "Пост '{$post->name}' успешно сохранён");
         } catch (\DomainException $e) {
-            return redirect()->back()->with('error',$e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    /**
+     * @param $id
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function edit($id)
+    {
+        try {
+            $command = new EditCommand((int)$id);
+            $handle = new EditHandler();
+            $post = $handle->handle($command);
+            $tags = new Tag();
+            $tags = $tags->getAllById();
+            $categories = new Category();
+            $categories = $categories->getAllById();
+            $users = new User();
+            $users = $users->getAllById();
+            return view('admin.posts.edit', compact('post', 'tags', 'categories', 'users'));
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+    }
+
+    /**
+     * @param PostRequest $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function update(PostRequest $request, $id)
+    {
+        try {
+            $requestCategsId = $request->input('categories');
+            $requestTagsId = $request->input('tags');
+            $categories = [];
+            $tags = [];
+
+            if (is_array($requestCategsId)) {
+                $categories = $requestCategsId;
+            } else {
+                $categories[] = $requestCategsId;
+            }
+
+            if (is_array($requestTagsId)) {
+                $tags = $requestTagsId;
+            } else {
+                $tags[] = $requestTagsId;
+            }
+
+            $command = new UpdateCommand(new Update(
+                (int)$id,
+                (string)$request->input('name'),
+                (string)$request->input('name'),
+                (int)$request->input('user_id'),
+                $categories,
+                $tags,
+                $request->file('thumbnail')
+            ));
+            $handle = new UpdateHandler();
+            $post = $handle->handle($command);
+            return redirect()->route('posts.index')->with('success', "Пост '{$post->name}' успешно обновлён");
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy($id)
     {
-        //
+        try {
+            $command = new DestroyCommand((int)$id);
+            $handle = new DestroyHandler();
+            $post = $handle->handle($command);
+            return redirect()->back()->with('success', "Пост '{$post->name}' успешно удалён");
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error',$e->getMessage());
+        }
     }
 }

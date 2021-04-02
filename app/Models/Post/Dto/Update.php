@@ -4,8 +4,13 @@
 namespace App\Models\Post\Dto;
 
 
-final class Insert
+final class Update
 {
+    /**
+     * @var int
+     */
+    private $id;
+
     /**
      * @var string
      */
@@ -24,42 +29,53 @@ final class Insert
     /**
      * @var array
      */
-    private $tagIds;
+    private $categoryIds;
 
     /**
      * @var array
      */
-    private $categoryIds;
+    private $tagIds;
 
     /**
-     * @var object
+     * @var null|object
      */
     private $thumbnail;
 
     /**
-     * Insert constructor.
+     * Update constructor.
+     * @param int $id
      * @param string $name
      * @param string $description
      * @param int $userId
-     * @param array $tagIds
      * @param array $categoryIds
-     * @param object $thumbnail
+     * @param array $tagIds
+     * @param object|null $thumbnail
      */
     public function __construct(
+        int $id,
         string $name,
         string $description,
         int $userId,
-        array $tagIds,
         array $categoryIds,
-        object $thumbnail
+        array $tagIds,
+        ?object $thumbnail
     )
     {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->userId = $userId;
-        $this->tagIds = $tagIds;
         $this->categoryIds = $categoryIds;
+        $this->tagIds = $tagIds;
         $this->thumbnail = $thumbnail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
@@ -89,24 +105,25 @@ final class Insert
     /**
      * @return array
      */
-    public function getTagIds(): array
-    {
-        return $this->tagIds;
-    }
-
-    /**
-     * @return array
-     */
     public function getCategoryIds(): array
     {
         return $this->categoryIds;
     }
 
     /**
+     * @return array
+     */
+    public function getTagIds(): array
+    {
+        return $this->tagIds;
+    }
+
+    /**
      * @return object
      */
-    public function getThumbnail(): object
+    public function getThumbnail(): ?object
     {
         return $this->thumbnail;
     }
+
 }

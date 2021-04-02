@@ -1,13 +1,12 @@
 <?php
 
 
-namespace App\Models\Tag\UseCase\Admin\Destroy;
-
-
+namespace App\Models\Post\UseCase\Admin\Edit;
 
 
 class Command
 {
+
     /**
      * @var int
      */
@@ -22,8 +21,9 @@ class Command
         if ($id !== 0) {
             $this->id = $id;
         } else {
-            throw new \DomainException('Некорректный id');
+            throw new \DomainException("Некорректный id");
         }
+
     }
 
     /**
@@ -33,4 +33,5 @@ class Command
     {
         return $this->id;
     }
+
 }
