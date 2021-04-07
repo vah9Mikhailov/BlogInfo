@@ -17,13 +17,13 @@ use App\Models\Post\UseCase\Admin\Store\Handler as StoreHandler;
 use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
 use App\Models\Post\UseCase\Admin\Update\Handler as UpdateHandler;
 use App\Models\Tag\Entity\Tag;
-use App\Models\User;
+use App\Models\User\Entity\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
+
 
 class PostController extends Controller
 {
@@ -47,7 +47,7 @@ class PostController extends Controller
         $categories = new Category();
         $categories = $categories->getAllById();
         $users = new User();
-        $users = $users->getAllById();
+        $users = $users->getNameById();
         return view('admin.posts.create', compact('tags', 'categories', 'users'));
     }
 
@@ -110,7 +110,7 @@ class PostController extends Controller
             $categories = new Category();
             $categories = $categories->getAllById();
             $users = new User();
-            $users = $users->getAllById();
+            $users = $users->getNameById();
             return view('admin.posts.edit', compact('post', 'tags', 'categories', 'users'));
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -76,6 +76,9 @@ class PostService
         }
     }
 
+    /**
+     * @param int $idd
+     */
     public function deleteIdTagsToPosts(int $idd)
     {
         $ids = $this->getTagsPostsFromTablePostTag($idd);

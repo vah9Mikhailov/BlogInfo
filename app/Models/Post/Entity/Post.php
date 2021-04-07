@@ -8,7 +8,7 @@ use App\Models\Post\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Post\UseCase\Admin\Store\Command;
 use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
 use App\Models\Tag\Entity\Tag;
-use App\Models\User;
+use App\Models\User\Entity\User;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

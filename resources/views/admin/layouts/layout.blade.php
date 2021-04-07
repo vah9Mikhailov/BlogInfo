@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
-    <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
+    <title>Argon Dashboard</title>
     <!-- Favicon -->
     <link rel="icon" href="{{asset('assets/img/brand/favicon.png')}}" type="image/png">
     <!-- Fonts -->
@@ -24,12 +24,12 @@
 
 <body>
 <!-- Sidenav -->
-@include('admin.posts.layouts.nav-sidebar')
+@include('admin.layouts.nav-sidebar')
 <!-- Main content -->
 
 <div class="main-content" id="panel">
     <!-- Topnav -->
-    @include('admin.posts.layouts.header')
+    @include('admin.layouts.header')
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert" style="
     margin-bottom: 0px">

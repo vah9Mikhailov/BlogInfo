@@ -14,36 +14,24 @@
                     <li class="nav-item has-treeview">
                         <a class="nav-link" href="#navbar-examples" data-toggle="collapse" role="button"
                            aria-expanded="true" aria-controls="navbar-examples">
-                            <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                            <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
+                            <i class="ni ni-single-02" style="color: #f4645f;"></i>
+                            <span class="nav-link-text" style="color: #f4645f;">О пользователях</span>
                         </a>
 
                         <div class="collapse show" id="navbar-examples">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item has-treeview">
                                     <a class="nav-link" href="{{ route('profile.edit') }}">
-                                        {{ __('User profile') }}
+                                        Профиль
                                     </a>
                                 </li>
                                 <li class="nav-item has-treeview">
-                                    <a class="nav-link" href="{{ route('user.index') }}">
-                                        {{ __('User Management') }}
+                                    <a class="nav-link" href="{{ route('users.index') }}">
+                                        Состав
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                    </li>
-
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link" href="{{ route('icons') }}">
-                            <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link" href="{{ route('table') }}">
-                            <i class="ni ni-bullet-list-67 text-default"></i>
-                            <span class="nav-link-text">Tables</span>
-                        </a>
                     </li>
                     <li class="nav-item has-treeview">
                         <a class="nav-link" href="{{ route('categories.index') }}">

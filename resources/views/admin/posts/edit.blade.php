@@ -1,4 +1,5 @@
-@extends('admin.posts.layouts.layout')
+@extends('admin.layouts.layout')
+<title>Argon - Редактирование поста</title>
 
 @section('content')
     <div class="header bg-primary pb-6">

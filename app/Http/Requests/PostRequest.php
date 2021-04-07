@@ -25,7 +25,6 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->id;
         return [
             'name' => 'required',
             'description' => 'required',
