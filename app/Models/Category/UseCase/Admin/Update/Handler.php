@@ -15,7 +15,7 @@ class Handler
     public function handle(Command $command)
     {
         $category = new Category();
-        $category->updateById($command);
+        $category = $category->updateById($command);
         return $category;
     }
 }

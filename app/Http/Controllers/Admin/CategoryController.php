@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category\Entity\Category;
 use App\Models\Category\UseCase\Admin\Destroy\Command as DestroyCommand;
 use App\Models\Category\UseCase\Admin\Destroy\Handler as DestroyHandler;
 use App\Models\Category\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Category\UseCase\Admin\Edit\Handler as EditHandler;
-use App\Models\Category\UseCase\Admin\Index\Handler;
 use App\Models\Category\UseCase\Admin\Store\Command;
 use App\Models\Category\UseCase\Admin\Store\Handler as StoreHandler;
 use App\Models\Category\UseCase\Admin\Update\Command as UpdateCommand;
@@ -26,8 +26,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $handle = new Handler();
-        $categories = $handle->handle();
+        $category = new Category();
+        $categories = $category->getAllWithPaginate();
         return view('admin.categories.index', compact('categories'));
     }
 

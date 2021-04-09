@@ -116,6 +116,6 @@
             </div>
         </div>
         <!-- Footer -->
-        @include('layouts.footers.auth')
+        @include('auth.layouts.footers.auth')
     </div>
 @endsection

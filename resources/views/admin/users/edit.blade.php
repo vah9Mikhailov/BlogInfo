@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-<title>Argon - Редактирование поста</title>
+<title>Argon - Редактирование профиля</title>
 
 @section('content')
     <div class="header bg-primary pb-6">
@@ -67,7 +67,7 @@
             </div>
         </div>
         <!-- Footer -->
-        @include('layouts.footers.auth')
+        @include('auth.layouts.footers.auth')
     </div>
 @endsection
 

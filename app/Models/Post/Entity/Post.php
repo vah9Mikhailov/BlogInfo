@@ -11,6 +11,8 @@ use App\Models\Tag\Entity\Tag;
 use App\Models\User\Entity\User;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -52,25 +54,25 @@ class Post extends Model
     /**
      * @return LengthAwarePaginator
      */
-    public function getAll()
+    public function getAllWithPaginate()
     {
         return $this->query()->paginate(5);
     }
 
     /**
      * @param $thumbnail
-     * @param $name
+     * @param $slug
      * @param null $image
      * @return string|null
      */
-    private function uploadImage($thumbnail, $name, $image = null)
+    private function uploadImage($thumbnail, $image = null)
     {
         if ($thumbnail) {
             if ($image) {
                 Storage::delete($image);
             }
             $folder = date('Y-m-d');
-            $uploadFolder = "images/{$folder}/{$name}";
+            $uploadFolder = "images/{$folder}";
             return $thumbnail->store($uploadFolder);
         } else {
             return null;
@@ -86,7 +88,7 @@ class Post extends Model
         $this->name = $command->getName();
         $this->description = $command->getDescription();
         $this->user_id = $command->getUserId();
-        $this->thumbnail = $this->uploadImage($command->getThumbnail(),$command->getName());
+        $this->thumbnail = $this->uploadImage($command->getThumbnail());
         if ($this->save()) {
             return $this;
         } else {
@@ -124,6 +126,18 @@ class Post extends Model
     }
 
     /**
+     * @param $image
+     * @return |null
+     */
+    private function deleteImage($image)
+    {
+        if ($image) {
+            Storage::delete($image);
+        }
+        return null;
+    }
+
+    /**
      * @param UpdateCommand $command
      * @return Post
      */
@@ -137,7 +151,7 @@ class Post extends Model
             $post->name = $command->getName();
             $post->description = $command->getDescription();
             $post->user_id = $command->getUserId();
-            $post->thumbnail = $this->uploadImage($command->getThumbnail(),$command->getName(),$post->thumbnail);
+            $post->thumbnail = $this->uploadImage($command->getThumbnail(),$post->thumbnail);
             $post->update();
             return $post;
         } else {
@@ -157,6 +171,7 @@ class Post extends Model
          */
         $post = $this->query()->find($command->getId());
         if (!is_null($post)) {
+            $post->deleteImage($post->thumbnail);
             $post->delete();
             DB::table('category_post')->where('post_id','=',$command->getId())->delete();
             DB::table('post_tag')->where('post_id','=',$command->getId())->delete();
@@ -164,5 +179,21 @@ class Post extends Model
         } else {
             throw new \DomainException("Поста с id = {$command->getId()} не существует");
         }
+    }
+
+    /**
+     * @return Builder[]|Collection
+     */
+    public function getLimitFive()
+    {
+        return $this->query()->orderBy('id','desc')->limit(5)->get();
+    }
+
+    /**
+     * @return Post[]|Collection
+     */
+    public function getAll()
+    {
+        return $this->all();
     }
 }

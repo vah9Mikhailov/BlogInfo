@@ -33,7 +33,7 @@ class PostController extends Controller
     public function index()
     {
         $post = new Post();
-        $posts = $post->getAll();
+        $posts = $post->getAllWithPaginate();
         return view('admin.posts.index', compact('posts'));
     }
 

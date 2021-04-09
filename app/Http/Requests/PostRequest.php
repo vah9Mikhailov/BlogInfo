@@ -30,7 +30,7 @@ class PostRequest extends FormRequest
             'description' => 'required',
             'categories' => 'required',
             'tags' => 'required',
-            'thumbnail' => 'nullable|image',
+            'thumbnail' => 'required|image',
         ];
     }
 

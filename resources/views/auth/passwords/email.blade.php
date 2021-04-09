@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'bg-default'])
+@extends('auth.layouts.app', ['class' => 'bg-default'])
 
 @section('content')
     @include('admin.users.header.guest')

@@ -22,9 +22,10 @@ Route::get('/', function () {
 /*Route::get('/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');*/
 \Illuminate\Support\Facades\Auth::routes();
 
-Route::get('admin/home', 'App\Http\Controllers\Admin\HomeController@index')->name('home');
+
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::get('/home', 'App\Http\Controllers\Admin\HomeController@index')->name('home');
     Route::resource('users', 'App\Http\Controllers\Admin\UserController', ['except' => ['show']]);
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\Admin\ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\Admin\ProfileController@update']);
@@ -35,5 +36,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resource('tags','App\Http\Controllers\Admin\TagController', ['except' => ['show']]);
 });
 
-
+Route::get('/', 'App\Http\Controllers\Front\HomeController@index')->name('home.front');
+Route::get('/gallery', 'App\Http\Controllers\Front\GalleryController@index')->name('gallery');
+Route::get('/blog', 'App\Http\Controllers\Front\BlogController@index')->name('blog');
+Route::get('/blog/{slug}', 'App\Http\Controllers\Front\BlogController@show')->name('blog.single');
 

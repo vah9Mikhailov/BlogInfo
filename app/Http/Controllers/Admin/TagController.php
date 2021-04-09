@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tag\Entity\Tag;
 use App\Models\Tag\UseCase\Admin\Destroy\Command as DestroyCommand;
 use App\Models\Tag\UseCase\Admin\Destroy\Handler as DestroyHandler;
 use App\Models\Tag\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Tag\UseCase\Admin\Edit\Handler as EditHandler;
-use App\Models\Tag\UseCase\Admin\Index\Handler;
 use App\Models\Tag\UseCase\Admin\Store\Command;
 use App\Models\Tag\UseCase\Admin\Store\Handler as StoreHandler;
 use App\Models\Tag\UseCase\Admin\Update\Command as UpdateCommand;
@@ -26,8 +26,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $handle = new Handler();
-        $tags = $handle->handle();
+        $tag = new Tag();
+        $tags = $tag->getAllWithPaginate();
         return view('admin.tags.index', compact('tags'));
     }
 

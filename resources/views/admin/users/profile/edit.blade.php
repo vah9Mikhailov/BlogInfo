@@ -185,7 +185,7 @@
             </div>
         </div>
 
-        @include('layouts.footers.auth')
+        @include('auth.layouts.footers.auth')
     </div>
 
     <style>
