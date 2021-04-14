@@ -49,8 +49,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Описание</label>
-                                        <textarea class="form-control @error('description') is-invalid @enderror"
-                                                  id="description" rows="5" name="description">{{$post->description}}</textarea>
+                                        <textarea class="ckeditor form-control @error('description') is-invalid @enderror"
+                                                  id="wysiwyg-editor" rows="5" name="description">{{$post->description}}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="categories">Категории</label>
@@ -101,5 +101,17 @@
         @include('auth.layouts.footers.auth')
     </div>
 @endsection
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
+    });
+</script>
+<script type="text/javascript">
+    CKEDITOR.replace('wysiwyg-editor', {
+        filebrowserUploadUrl: "{{route('ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: 'form'
+    });
+</script>
 
 

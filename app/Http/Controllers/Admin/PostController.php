@@ -146,7 +146,7 @@ class PostController extends Controller
             $command = new UpdateCommand(new Update(
                 (int)$id,
                 (string)$request->input('name'),
-                (string)$request->input('name'),
+                (string)$request->input('description'),
                 (int)$request->input('user_id'),
                 $categories,
                 $tags,

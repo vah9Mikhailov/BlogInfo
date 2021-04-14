@@ -7,6 +7,7 @@ use App\Models\Post\UseCase\Admin\Destroy\Command as DestroyCommand;
 use App\Models\Post\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Post\UseCase\Admin\Store\Command;
 use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
+use App\Models\Post\UseCase\Front\Command as ShowFrontCommand;
 use App\Models\Tag\Entity\Tag;
 use App\Models\User\Entity\User;
 use Exception;
@@ -118,8 +119,7 @@ class Post extends Model
      */
     public function getImage()
     {
-        if (!is_null($this->thumbnail))
-        {
+        if (!is_null($this->thumbnail)) {
             return asset("uploads/{$this->thumbnail}");
         }
         return asset("uploads/images/noimg.jpg");
@@ -151,7 +151,7 @@ class Post extends Model
             $post->name = $command->getName();
             $post->description = $command->getDescription();
             $post->user_id = $command->getUserId();
-            $post->thumbnail = $this->uploadImage($command->getThumbnail(),$post->thumbnail);
+            $post->thumbnail = $this->uploadImage($command->getThumbnail(), $post->thumbnail);
             $post->update();
             return $post;
         } else {
@@ -173,8 +173,8 @@ class Post extends Model
         if (!is_null($post)) {
             $post->deleteImage($post->thumbnail);
             $post->delete();
-            DB::table('category_post')->where('post_id','=',$command->getId())->delete();
-            DB::table('post_tag')->where('post_id','=',$command->getId())->delete();
+            DB::table('category_post')->where('post_id', '=', $command->getId())->delete();
+            DB::table('post_tag')->where('post_id', '=', $command->getId())->delete();
             return $post;
         } else {
             throw new \DomainException("Поста с id = {$command->getId()} не существует");
@@ -186,7 +186,7 @@ class Post extends Model
      */
     public function getLimitFive()
     {
-        return $this->query()->orderBy('id','desc')->limit(5)->get();
+        return $this->query()->orderBy('id', 'desc')->limit(5)->get();
     }
 
     /**
@@ -195,5 +195,22 @@ class Post extends Model
     public function getAll()
     {
         return $this->all();
+    }
+
+    /**
+     * @param ShowFrontCommand $command
+     * @return Post
+     */
+    public function getBySlug(ShowFrontCommand $command): Post
+    {
+        /**
+         * @var $post Post
+         */
+        $post = $this->query()->where('slug', '=', $command->getSlug())->first();
+        if (!is_null($post)) {
+            return $post;
+        } else {
+            throw new \DomainException("Поста со slug = '{$command->getSlug()}' не существует");
+        }
     }
 }

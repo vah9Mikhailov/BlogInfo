@@ -12,6 +12,12 @@
                 <!-- Nav items -->
                 <ul class="navbar-nav">
                     <li class="nav-item has-treeview">
+                        <a class="nav-link" href="{{ route('home.front') }}">
+                            <i class="ni ni-tv-2 text-blue"></i>
+                            <span class="nav-link-text">На сайт</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
                         <a class="nav-link" href="#navbar-examples" data-toggle="collapse" role="button"
                            aria-expanded="true" aria-controls="navbar-examples">
                             <i class="ni ni-single-02" style="color: #f4645f;"></i>

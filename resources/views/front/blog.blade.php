@@ -3,20 +3,19 @@
 <head>
     <title>Tulen | Photography HTML Template</title>
     <meta charset="UTF-8">
-    <meta name="description" content="Tulen Photography HTML Template"
-    ">
+    <meta name="description" content="Tulen Photography HTML Template">
     <meta name="keywords" content="photo, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{'front'}}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="{{'front'}}/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="{{'front'}}/css/themify-icons.css"/>
-    <link rel="stylesheet" href="{{'front'}}/css/accordion.css"/>
-    <link rel="stylesheet" href="{{'front'}}/css/fresco.css"/>
-    <link rel="stylesheet" href="{{'front'}}/css/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/themify-icons.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/accordion.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/fresco.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/owl.carousel.min.css"/>
 
     <!-- Main Stylesheets -->
-    <link rel="stylesheet" href="{{'front'}}/css/style.css"/>
+    <link rel="stylesheet" href="{{asset('front')}}/css/style.css"/>
 
 
     <!--[if lt IE 9]>
@@ -57,14 +56,14 @@
 <!-- Blog Section end -->
 
 <!--====== Javascripts & Jquery ======-->
-<script src="{{'front'}}/js/vendor/jquery-3.2.1.min.js"></script>
-<script src="{{'front'}}/js/bootstrap.min.js"></script>
-<script src="{{'front'}}/js/owl.carousel.min.js"></script>
-<script src="{{'front'}}/js/imagesloaded.pkgd.min.js"></script>
-<script src="{{'front'}}/js/isotope.pkgd.min.js"></script>
-<script src="{{'front'}}/js/jquery.nicescroll.min.js"></script>
-<script src="{{'front'}}/js/circle-progress.min.js"></script>
-<script src="{{'front'}}/js/pana-accordion.js"></script>
-<script src="{{'front'}}/js/main.js"></script>
+<script src="{{asset('front')}}/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="{{asset('front')}}/js/bootstrap.min.js"></script>
+<script src="{{asset('front')}}/js/owl.carousel.min.js"></script>
+<script src="{{asset('front')}}/js/imagesloaded.pkgd.min.js"></script>
+<script src="{{asset('front')}}/js/isotope.pkgd.min.js"></script>
+<script src="{{asset('front')}}/js/jquery.nicescroll.min.js"></script>
+<script src="{{asset('front')}}/js/circle-progress.min.js"></script>
+<script src="{{asset('front')}}/js/pana-accordion.js"></script>
+<script src="{{asset('front')}}/js/main.js"></script>
 </body>
 </html>

@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 /*Route::get('/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');*/
 \Illuminate\Support\Facades\Auth::routes();
+Route::get('/home', 'App\Http\Controllers\Admin\HomeController@index')->name('home');
 
 
 
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resource('posts','App\Http\Controllers\Admin\PostController', ['except' => ['show']]);
     Route::resource('categories','App\Http\Controllers\Admin\CategoryController', ['except' => ['show']]);
     Route::resource('tags','App\Http\Controllers\Admin\TagController', ['except' => ['show']]);
+    Route::post('ckeditor/upload', 'CKEditorController@upload')->name('ckeditor.image-upload');
 });
 
 Route::get('/', 'App\Http\Controllers\Front\HomeController@index')->name('home.front');
