@@ -136,6 +136,11 @@ class PostService
         return $result;
     }
 
+    public function getPostsCategories()
+    {
+        $categories = $this->post->categories()->get();
+    }
+
 
 
     /**

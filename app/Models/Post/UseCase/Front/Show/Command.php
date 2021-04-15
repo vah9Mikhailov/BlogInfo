@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Models\Post\UseCase\Front;
+namespace App\Models\Post\UseCase\Front\Show;
 
 
 class Command

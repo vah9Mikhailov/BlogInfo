@@ -3,11 +3,12 @@
 namespace App\Models\Post\Entity;
 
 use App\Models\Category\Entity\Category;
+use App\Models\Comment\Entity\Comment;
 use App\Models\Post\UseCase\Admin\Destroy\Command as DestroyCommand;
 use App\Models\Post\UseCase\Admin\Edit\Command as EditCommand;
 use App\Models\Post\UseCase\Admin\Store\Command;
 use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
-use App\Models\Post\UseCase\Front\Command as ShowFrontCommand;
+use App\Models\Post\UseCase\Front\Show\Command as ShowFrontCommand;
 use App\Models\Tag\Entity\Tag;
 use App\Models\User\Entity\User;
 use Exception;
@@ -51,6 +52,26 @@ class Post extends Model
             ]
         ];
     }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('commentCount', function ($builder) {
+            $builder->withCount('comments');
+        });
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getThreadedComments()
+    {
+        return $this->comments()->with('owner')->get()->threaded();
+    }
+
+
 
     /**
      * @return LengthAwarePaginator
@@ -119,10 +140,7 @@ class Post extends Model
      */
     public function getImage()
     {
-        if (!is_null($this->thumbnail)) {
-            return asset("uploads/{$this->thumbnail}");
-        }
-        return asset("uploads/images/noimg.jpg");
+        return asset("uploads/{$this->thumbnail}");
     }
 
     /**
@@ -212,5 +230,14 @@ class Post extends Model
         } else {
             throw new \DomainException("Поста со slug = '{$command->getSlug()}' не существует");
         }
+    }
+
+    /**
+     * @param ShowFrontCommand $command
+     * @return Builder[]|Collection
+     */
+    public function getRandom(ShowFrontCommand $command)
+    {
+        return $posts = $this->query()->where('slug','!=',$command->getSlug())->inRandomOrder()->limit(3)->get();
     }
 }

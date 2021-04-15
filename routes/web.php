@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post\Entity\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-\Illuminate\Support\Facades\Auth::routes();
+Auth::routes();
 
 /*Route::get('/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');*/
-\Illuminate\Support\Facades\Auth::routes();
+Auth::routes();
 Route::get('/home', 'App\Http\Controllers\Admin\HomeController@index')->name('home');
 
 
@@ -42,4 +44,16 @@ Route::get('/', 'App\Http\Controllers\Front\HomeController@index')->name('home.f
 Route::get('/gallery', 'App\Http\Controllers\Front\GalleryController@index')->name('gallery');
 Route::get('/blog', 'App\Http\Controllers\Front\BlogController@index')->name('blog');
 Route::get('/blog/{slug}', 'App\Http\Controllers\Front\BlogController@show')->name('blog.single');
+Route::post('blog/{slug}/comments', 'App\Http\Controllers\Front\BlogController@storeComment')->middleware('auth')->name('send.comment');
+Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout')->middleware('auth');
+
+/*Route::get('blog/{slug}', function (Post $post) {
+    return view('front.blog-details')->with([
+        'post' => $post->slug,
+        'comments' => $post->getThreadedComments()
+    ]);
+})->name('blog.single');*/
+
+
+
 

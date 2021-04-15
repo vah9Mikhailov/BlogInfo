@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Models\Post\UseCase\Front;
+namespace App\Models\Post\UseCase\Front\Show;
 
 
 use App\Models\Post\Entity\Post;
+use App\Models\Post\UseCase\Front\Show\Command;
 
 class Handler
 {

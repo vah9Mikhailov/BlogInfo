@@ -29,10 +29,14 @@
         <ul>
             <li><a href="{{route('home.front')}}" class="@if (request()->is('/')) {{'active'}} @endif">Home</a></li>
             <li><a href="{{route('gallery')}}" class="@if (request()->routeIs('gallery')) {{'active'}} @endif">Галерея</a></li>
-            <li><a href="{{route('blog')}}" class="@if (request()->is('/blog')) {{'active'}} @endif">Блог</a></li>
-            {{--<li><a href="{{route('contact')}}" class="@if (request()->is('/contact')) {{'active'}} @endif">Контакты</a></li>--}}
-            <li><a href="{{route('login')}}" >Вход</a></li>
-            <li><a href="{{route('register')}}">Регистрация</a></li>
+            <li><a href="{{route('blog')}}" class="@if (request()->routeIs('blog')) {{'active'}} @endif">Блог</a></li>
+            @if(auth()->check())
+                <li><a href="@if(auth()->user()->is_admin) {{ route('home')}}@endif">{{auth()->user()->name}}</a></li>
+                <li><a href="{{route('logout')}}">Выход</a></li>
+            @else
+                <li><a href="{{route('login')}}">Вход</a></li>
+                <li><a href="{{route('register')}}">Регистрация</a></li>
+            @endif
         </ul>
     </nav>
     <div class="sm-footer">
