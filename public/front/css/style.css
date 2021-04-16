@@ -1525,7 +1525,7 @@ only screen and (min-width: 576px) and (max-width: 767px) {
 }
 
 .comment-option .single-comment-item {
-	margin-bottom: 30px;
+	margin-bottom: 5px;
 }
 
 .comment-option .single-comment-item.reply-comment {

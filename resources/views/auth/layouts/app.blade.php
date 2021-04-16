@@ -21,17 +21,19 @@
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
     <body class="{{ $class ?? '' }}">
-        @auth()
+        @if(auth()->user()->email_verified_at)
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
             @include('admin.layouts.nav-sidebar')
-        @endauth
+
 
         <div class="main-content">
             @include('auth.layouts.navbars.navbar')
+        @endif
             @yield('content')
         </div>
+
 
         @guest()
             @include('auth.layouts.footers.guest')

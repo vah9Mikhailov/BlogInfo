@@ -73,8 +73,8 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th scope="row">
-                                        @if($user->role->name == "Администратор")
+                                    @if(auth()->user()->role === "Администратор")
+                                        <th scope="row">
                                             <a href="{{ route('users.edit', ['user'=> $user->id]) }}"
                                                class="btn btn-info btn-sm float-left mr-1">
                                                 <i class="fas fa-pencil-alt"></i>
@@ -89,8 +89,8 @@
                                                 </button>
 
                                             </form>
-                                        @endif
-                                    </th>
+                                        </th>
+                                    @endif
                                 </tr>
                                 </tbody>
                             @endforeach

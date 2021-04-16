@@ -31,7 +31,7 @@
             <li><a href="{{route('gallery')}}" class="@if (request()->routeIs('gallery')) {{'active'}} @endif">Галерея</a></li>
             <li><a href="{{route('blog')}}" class="@if (request()->routeIs('blog')) {{'active'}} @endif">Блог</a></li>
             @if(auth()->check())
-                <li><a href="@if(auth()->user()->is_admin) {{ route('home')}}@endif">{{auth()->user()->name}}</a></li>
+                <li><a href="{{route('home')}}">{{auth()->user()->name}}</a></li>
                 <li><a href="{{route('logout')}}">Выход</a></li>
             @else
                 <li><a href="{{route('login')}}">Вход</a></li>
