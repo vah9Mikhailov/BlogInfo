@@ -3,6 +3,7 @@
 namespace App\Models\Comment\Entity;
 
 use App\Collection\CommentCollection;
+use App\Models\Comment\Dto\Store;
 use App\Models\Post\Entity\Post;
 use App\Models\Post\UseCase\Front\Show\Command as ShowFrontCommand;
 use App\Models\User\Entity\User;
@@ -22,7 +23,7 @@ class Comment extends Model
 
     public function posts()
     {
-        return $this->belongsTo(Post::class,'post_id');
+        return $this->belongsTo(Post::class, 'post_id');
     }
 
     public function newCollection(array $models = [])
@@ -31,17 +32,15 @@ class Comment extends Model
     }
 
     /**
-     * @param $attributes
-     * @param ShowFrontCommand $command
+     * @param Store $dto
      * @return bool
      */
-    public function addComment($attributes,ShowFrontCommand $command)
+    public function addComment(Store $dto)
     {
-        $post = Post::query()->where('slug', '=', $command->getSlug())->first();
-        $comment = (new Comment)->forceFill($attributes);
-        $comment->user_id = auth()->id();
-        $comment->post_id = $post->id;
-
-        return $comment->save();
+        $this->body = $dto->getBody();
+        $this->parent_id = $dto->getParentId();
+        $this->user_id = auth()->id();
+        $this->post_id = $dto->getPostId();
+        return $this->save();
     }
 }

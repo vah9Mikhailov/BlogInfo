@@ -21,6 +21,7 @@ class Command
         $this->validate();
     }
 
+
     private function validate()
     {
         if (is_numeric($this->name)) {

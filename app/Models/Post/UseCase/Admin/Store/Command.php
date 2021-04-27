@@ -33,7 +33,9 @@ class Command
      */
     private $categoryIds;
 
-
+    /**
+     * @var object
+     */
     private $thumbnail;
 
     public function __construct(Insert $dto)
@@ -98,7 +100,9 @@ class Command
         return $this->categoryIds;
     }
 
-
+    /**
+     * @return object
+     */
     public function getThumbnail()
     {
         return $this->thumbnail;

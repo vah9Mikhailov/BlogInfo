@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category\Entity\Category;
-use App\Models\Category\Services\CategoryService;
 use App\Models\Post\Entity\Post;
-use App\Models\Post\UseCase\Front\Index\Handler;
+use App\Singleton;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

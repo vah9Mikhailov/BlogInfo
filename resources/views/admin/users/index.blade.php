@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    @if(auth()->user()->role === "Администратор")
+                                    @if(auth()->user()->role_id === 1)
                                         <th scope="row">
                                             <a href="{{ route('users.edit', ['user'=> $user->id]) }}"
                                                class="btn btn-info btn-sm float-left mr-1">

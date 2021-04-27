@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment\Dto\Store;
 use App\Models\Comment\Entity\Comment;
 use App\Models\Post\Entity\Post;
 use App\Models\Post\UseCase\Front\Show\Command;
@@ -11,6 +12,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
 
 class BlogController extends Controller
 {
@@ -45,15 +48,34 @@ class BlogController extends Controller
 
 
 
-    public function storeComment($slug)
+    public function storeComment(Request $request)
     {
-        $attributes = ([
-            'body' => request('body'),
-            'parent_id' => request('parent_id', null),
-        ]);
-        $command = new Command((string)$slug);
-        $comment = new Comment();
-        $comment->addComment($attributes,$command);
-        return back();
+        try {
+            $request->validate([
+                'body' => 'required',
+            ]);
+
+            if ($request->post('parent_id', null) == 0) {
+                $parentId = null;
+            } else {
+                $parentId = $request->post('parent_id', null);
+            }
+
+            $comment = new Comment();
+            $comment->addComment(new Store(
+                $request->post('post_id'),
+                $parentId,
+                $request->post('body'),
+            ));
+            $command = new Command((string)$request->post('slug'));
+            $handle = new Handler();
+            $post = $handle->handle($command);
+            $comments = $post->getThreadedComments();
+            return view('front.comments_layouts.post-comments',compact("comments"))->render();
+
+        } catch (\DomainException $e) {
+            return back()->with('error',$e->getMessage());
+        }
+
     }
 }

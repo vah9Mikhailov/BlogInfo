@@ -1,6 +1,9 @@
 
 <div class="comment-option">
     <div class="single-comment-item">
+        <div class="sc-author">
+            <img src="{{$comment->owner->getImage()}}" alt="">
+        </div>
         <div class="sc-text">
             <span>{{ $comment->created_at->format('H:i:s F d, Y') }}</span>
             <h5>{{ $comment->owner->name }}</h5>
@@ -9,7 +12,7 @@
 
                 <a href="#commentForm{{$comment->id}}" data-toggle="collapse" class="comment-btn">Комментировать</a>
                 <div class="collapse" id="commentForm{{$comment->id}}">
-                    @include ('front.comments_layouts.form', ['parentId' => $comment->id])
+                    @include ('front.comments_layouts.form', ['parentId' => $comment->id ?? 0])
                 </div>
             @endif
         </div>

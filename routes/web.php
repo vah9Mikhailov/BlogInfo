@@ -47,6 +47,7 @@ Route::get('/gallery', 'App\Http\Controllers\Front\GalleryController@index')->na
 Route::get('/blog', 'App\Http\Controllers\Front\BlogController@index')->name('blog');
 Route::get('/blog/{slug}', 'App\Http\Controllers\Front\BlogController@show')->name('blog.single');
 Route::post('blog/{slug}/comments', 'App\Http\Controllers\Front\BlogController@storeComment')->middleware('auth')->name('send.comment');
+Route::post('blog/comments/add', 'App\Http\Controllers\Front\BlogController@storeComment');
 Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout')->middleware('auth');
 Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@register')->name('register');
 

@@ -39,7 +39,7 @@
                             </ul>
                         </div>
                     </li>
-                    @if(auth()->user()->role === "Администратор")
+                    @if(auth()->user()->role_id == 1)
                         <li class="nav-item has-treeview">
                             <a class="nav-link" href="{{ route('categories.index') }}">
                                 <i class="ni ni-bullet-list-67 text-blue"></i>
