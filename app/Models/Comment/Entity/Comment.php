@@ -7,8 +7,10 @@ use App\Models\Comment\Dto\Store;
 use App\Models\Post\Entity\Post;
 use App\Models\Post\UseCase\Front\Show\Command as ShowFrontCommand;
 use App\Models\User\Entity\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Comment extends Model
 {
@@ -43,4 +45,6 @@ class Comment extends Model
         $this->post_id = $dto->getPostId();
         return $this->save();
     }
+
+
 }

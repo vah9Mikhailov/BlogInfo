@@ -11,6 +11,7 @@ use App\Models\Post\UseCase\Admin\Update\Command as UpdateCommand;
 use App\Models\Post\UseCase\Front\Show\Command as ShowFrontCommand;
 use App\Models\Tag\Entity\Tag;
 use App\Models\User\Entity\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,6 +66,7 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
 
     public function getThreadedComments()
     {
@@ -232,12 +234,12 @@ class Post extends Model
         }
     }
 
+
     /**
-     * @param ShowFrontCommand $command
-     * @return Builder[]|Collection
+     * @return mixed
      */
-    public function getRandom(ShowFrontCommand $command)
+    public function getFormatUpdatedAt()
     {
-        return $posts = $this->query()->where('slug','!=',$command->getSlug())->inRandomOrder()->limit(3)->get();
+        return $this->updated_at->format('F d, Y');
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -64,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getNameById()
     {
-        return $this->query()->pluck('name','id');
+        return $this->query()->pluck('name', 'id');
     }
 
     /**
@@ -151,8 +152,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getImage()
     {
-        if (!is_null($this->thumbnail))
-        {
+        if (!is_null($this->thumbnail)) {
             return asset("uploads/{$this->thumbnail}");
         }
         return asset("uploads/images/no-image.png");
@@ -169,11 +169,13 @@ class User extends Authenticatable implements MustVerifyEmail
          */
         $user = $this->query()->find($command->getId());
         if (!is_null($user)) {
-            $user->thumbnail = $this->uploadImage($command->getThumbnail(),$user->name,$user->thumbnail);
+            $user->thumbnail = $this->uploadImage($command->getThumbnail(), $user->name, $user->thumbnail);
             $user->update();
             return $user;
         } else {
             throw new \DomainException("Пользователя с id = {$command->getId()} не существует");
         }
     }
+
+
 }

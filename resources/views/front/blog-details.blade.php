@@ -7,28 +7,28 @@
         <div class="container">
             <div class="single-blog-page">
                 <div class="blog-metas">
-                    <div class="blog-meta">{{$post->updated_at->format('F d, Y')}}</div>
+                    <div class="blog-meta">{{$showPostResponse->getPost()->getUpdatedAt()}}</div>
                 </div>
-                <h2>{{$post->name}}</h2>
+                <h2>{{$showPostResponse->getPost()->getName()}}</h2>
                 <div class="blog-thumb">
-                    <img src="{{$post->getImage()}}" alt="">
+                    <img src="{{$showPostResponse->getPost()->getImage()}}" alt="">
                 </div>
-                <p>{!! $post->description!!}</p>
+                <p>{!! $showPostResponse->getPost()->getDescription()!!}</p>
                 <div class="row pt-5">
                     <div class="col-lg-6 mb-4">
                         <div class="blog-metas">
                             <div class="blog-meta"><h6>Категории</h6></div>
                             <div class="blog-meta">
-                                @foreach($post->categories as $category)
-                                    <a href="#" class="post-cata">{{$category->name}}</a>
+                                @foreach($showPostResponse->getCategory()->getNames() as $nameCategory)
+                                    <a href="#" class="post-cata">{{$nameCategory}}</a>
                                 @endforeach
                             </div>
                         </div>
                         <div class="blog-metas">
                             <div class="blog-meta"><h6>Теги</h6></div>
                             <div class="blog-meta">
-                                @foreach($post->tags as $tag)
-                                    <a href="#" class="post-cata">{{$tag->name}}</a>
+                                @foreach($showPostResponse->getTag()->getNames() as $nameTag)
+                                    <a href="#" class="post-cata">{{$nameTag}}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -37,15 +37,15 @@
                 <div class="recent-blog">
                     <h3 class="mb-4 pb-2">Рекомендуем</h3>
                     <div class="row">
-                        @foreach($posts as $p)
+                        @foreach($showPostResponse->getPost()->getRecommendPosts() as $recommendPost)
                             <div class="col-lg-4">
-                                <div class="blog-item rp-item set-bg" data-setbg="{{$p->getImage()}}">
-                                    @foreach($post->categories as $category)
-                                        <div class="pa-tag">{{$category->name}}</div>
+                                <div class="blog-item rp-item set-bg" data-setbg="{{$recommendPost['thumbnail']}}">
+                                    @foreach($recommendPost['categoryIds'] as $nameCategory)
+                                        <div class="pa-tag">{{$nameCategory}}</div>
                                     @endforeach
                                     <div class="bi-text">
-                                        <div class="bi-date">{{$p->updated_at->format('F d, Y')}}</div>
-                                        <h3><a href="">{{$p->name}}</a></h3>
+                                        <div class="bi-date">{{$recommendPost['updated_at']}}</div>
+                                        <h3><a href="">{{$recommendPost['name']}}</a></h3>
                                     </div>
                                 </div>
                             </div>
@@ -53,17 +53,17 @@
                     </div>
 
                 </div>
-                @if(count($post->comments))
-                    <div class="comment-option-main">
-                        @include('front.comments_layouts.post-comments')
-                    </div>
-                @endif
-                @if (auth()->check())
-                    <h3>Оставьте свой комментарий</h3>
-                    @include ('front.comments_layouts.form')
-                @else
-                    <h3>Войдите, чтоб оставить свой комментарий</h3>
-                @endif
+                @if(count($showPostResponse->getPost()->getThreadedComments()))
+                     <div class="comment-option-main">
+                         @include('front.comments_layouts.post-comments')
+                     </div>
+                 @endif
+                 @if (auth()->check())
+                     <h3>Оставьте свой комментарий</h3>
+                     @include ('front.comments_layouts.form')
+                 @else
+                     <h3>Войдите, чтоб оставить свой комментарий</h3>
+                 @endif
             </div>
         </div>
     </section>
@@ -82,8 +82,8 @@
             url: '/blog/comments/add',
             data: {
                 '_token': '{{csrf_token()}}',
-                'post_id': '{{$post->id}}',
-                'slug': '{{$post->slug}}',
+                'post_id': '{{$showPostResponse->getPost()->getId()}}',
+                'slug': '{{$showPostResponse->getPost()->getSlug()}}',
                 'parent_id': id,
                 'body': $('#comment_body_' + id)[0].value,
             },

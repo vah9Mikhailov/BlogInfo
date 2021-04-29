@@ -38,7 +38,7 @@ class Category extends Model
      */
     public function getAllById()
     {
-        return $this->query()->pluck('name','id');
+        return $this->query()->pluck('name', 'id');
     }
 
     /**
@@ -68,7 +68,7 @@ class Category extends Model
      * @return Category
      * @throws Exception
      */
-    public function deleteById(DestroyCommand $command) : Category
+    public function deleteById(DestroyCommand $command): Category
     {
         /**
          * @var $category Category
@@ -76,7 +76,7 @@ class Category extends Model
         $category = $this->query()->find($command->getId());
         if (!is_null($category)) {
             $category->delete();
-            DB::table('category_post')->where('category_id','=',$command->getId())->delete();
+            DB::table('category_post')->where('category_id', '=', $command->getId())->delete();
             return $category;
         } else {
             throw new \DomainException("Категории с id = {$command->getId()} не существует");
@@ -87,7 +87,7 @@ class Category extends Model
      * @param EditCommand $command
      * @return Category
      */
-    public function edit(EditCommand $command) : Category
+    public function edit(EditCommand $command): Category
     {
         /**
          * @var $category Category
@@ -118,4 +118,24 @@ class Category extends Model
             throw new \DomainException("Категории с id = {$command->getId()} не существует");
         }
     }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getByPostId($id)
+    {
+        $categories = DB::table('categories')
+            ->select('categories.name')
+            ->join('category_post','category_post.category_id','=','categories.id')
+            ->where('category_post.post_id','=',"{$id}")
+            ->get();
+        $result = [];
+        foreach ($categories as $category) {
+            $result[] = $category->name;
+        }
+        return $result;
+    }
+
+
 }

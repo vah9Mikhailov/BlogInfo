@@ -36,11 +36,8 @@ class BlogController extends Controller
         try {
             $command = new Command((string)$slug);
             $handle = new Handler();
-            $post = $handle->handle($command);
-            $posts = new Post();
-            $comments = $post->getThreadedComments();
-            $posts = $posts->getRandom($command);
-            return view('front.blog-details', compact('post', 'posts', 'comments'));
+            $showPostResponse = $handle->handle($command);
+            return view('front.blog-details', compact('showPostResponse'));
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

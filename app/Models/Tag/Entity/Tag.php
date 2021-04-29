@@ -119,4 +119,22 @@ class Tag extends Model
         }
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getPostById($id)
+    {
+        $tags = DB::table('tags')
+            ->select('tags.name')
+            ->join('post_tag','post_tag.tag_id','=','tags.id')
+            ->where('post_tag.post_id','=',"{$id}")
+            ->get();
+        $result = [];
+        foreach ($tags as $tag) {
+            $result[] = $tag->name;
+        }
+        return $result;
+    }
+
 }

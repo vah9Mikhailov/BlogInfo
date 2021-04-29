@@ -5,12 +5,13 @@ namespace App\Models\Post\Services;
 
 
 use App\Models\Category\Entity\Category;
+use App\Models\Comment\Entity\Comment;
 use App\Models\Post\Entity\Post;
+use App\Models\Post\UseCase\Front\Show\Command as ShowFrontCommand;
 use App\Models\Tag\Entity\Tag;
-use DateTime;
-use Illuminate\Support\Collection;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\returnArgument;
+
 
 class PostService
 {
@@ -28,6 +29,7 @@ class PostService
      * @var Tag
      */
     private $tag;
+
 
     /**
      * PostService constructor.
@@ -142,51 +144,29 @@ class PostService
     }
 
 
-
     /**
-     * @param int $id
-     * @param array $ids
+     * @param $id
      * @return array
      */
-    /*private function checkIdTagsForExistingIds(int $id, array $ids)
+    public function getRandomPost($id)
     {
-        $tags = $this->getTagsPostsFromTablePostTag($id);
-        $tages = array_flip($tags);
-        $ides = array_flip($ids);
-        if (count($ids) >= count($tags)) {
-            foreach ($ids as $key => $id) {
-                if (isset($tages[$id])) {
-                    unset($ids[$key]);
-                }
-            }
-            return $ids;
-        } else {
-            foreach ($tags as $key => $tag) {
-                if (isset($ides[$tag])) {
-                    unset($tags[$key]);
-                }
-            }
-            $endIdes = array_flip($ides);
-            return $endIdes;
+        $posts = DB::table('posts')
+            ->select('id','name','updated_at','thumbnail')
+            ->where('id','!=',$id)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+        $result = [];
+        foreach ($posts as $post) {
+            $result[] = [
+                'categoryIds' => $this->category->getByPostId($post->id),
+                'name' => $post->name,
+                'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s',$post->updated_at)->format('F d, Y'),
+                'thumbnail' => asset("uploads/{$post->thumbnail}")
+            ];
         }
-
-    }*/
-
-
-
-    /*public function updateIdTagsToPosts(int $id, array $ids)
-    {
-        $ides = $this->checkIdTagsForExistingIds($id, $ids);
-        if ($ides) {
-            foreach ($ides as $value) {
-                DB::table('post_tag')
-                    ->insert([
-                        'post_id' => $id,
-                        'tag_id' => (int)$value,
-                    ]);
-            }
-        }
-    }*/
+        return $result;
+    }
 
 
 }

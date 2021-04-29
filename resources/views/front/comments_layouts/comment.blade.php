@@ -20,8 +20,8 @@
     <hr>
     <div class="single-comment-item reply-comment">
         <div class="sc-text">
-            @if (isset($comments[$comment->id]))
-                @include ('front.comments_layouts.list', ['collection' => $comments[$comment->id]])
+            @if (isset($showPostResponse->getPost()->getThreadedComments()[$comment->id]))
+                @include ('front.comments_layouts.list', ['collection' => $showPostResponse->getPost()->getThreadedComments()[$comment->id]])
             @endif
         </div>
     </div>

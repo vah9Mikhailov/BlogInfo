@@ -4,7 +4,8 @@
 namespace App\Collection;
 
 
-use App\Models\Comment\Entity\Comment;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -15,16 +16,18 @@ class CommentCollection extends Collection
      */
     public function threaded()
     {
-        $comments = parent::groupBy('parent_id');
+        $comment = parent::groupBy('parent_id');
 
-        if (count($comments)) {
-            $comments['root'] = $comments[''];
-            unset($comments['']);
+
+        if (count($comment)) {
+            $comment['root'] = $comment[''];
+            unset($comment['']);
         }
         else
         {
-            $comments['root'] = new static();
+            $comment['root'] = new static();
         }
-        return $comments;
+
+        return $comment;
     }
 }
